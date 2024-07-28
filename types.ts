@@ -1,3 +1,14 @@
+export type TLogoWallQuery = {
+  assetCollection: {
+    items: {
+      title: string;
+      url: string;
+      width: number;
+      height: number;
+    }[];
+  };
+};
+
 export type THeroQuery = {
   heroCollection: {
     items: {
