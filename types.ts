@@ -1,3 +1,17 @@
+export type THeaderNavQuery = {
+  navigationCollection: {
+    items: {
+      name: string;
+      linkCollection: {
+        items: {
+          label: string;
+          link: string;
+        }[];
+      };
+    }[];
+  };
+};
+
 export type TLogoWallQuery = {
   assetCollection: {
     items: {
