@@ -1,6 +1,72 @@
 import "server-only";
-import { THeaderNavQuery, THeroQuery, TLogoWallQuery } from "@/types";
+import {
+  TCustomerPostQuery,
+  THeaderNavQuery,
+  THeroQuery,
+  TLogoWallQuery,
+} from "@/types";
 import { contentGqlFetcher, gql } from "./fetch";
+
+export const getSlugsForPosts = async () => {
+  const query = gql`
+    {
+      customerPostCollection {
+        items {
+          slug
+        }
+      }
+    }
+  `;
+
+  const data = await contentGqlFetcher<{
+    customerPostCollection: { items: { slug: string }[] };
+  }>({ query });
+
+  if (!data) {
+    throw new Error("Could not get content");
+  }
+
+  return data;
+};
+
+export const getContentForCustomerPost = async (slug: string) => {
+  const query = gql`
+    query CustomerPostCollection($where: CustomerPostFilter) {
+      customerPostCollection(where: $where) {
+        items {
+          title
+          slug
+          customer {
+            logo {
+              url
+              width
+              height
+            }
+            name
+          }
+          body {
+            json
+          }
+        }
+      }
+    }
+  `;
+
+  const data = await contentGqlFetcher<TCustomerPostQuery>({
+    query,
+    variables: {
+      where: {
+        slug,
+      },
+    },
+  });
+
+  if (!data) {
+    throw new Error("Could not get content");
+  }
+
+  return data;
+};
 
 export const getContentHeaderNav = async () => {
   const query = gql`
@@ -65,10 +131,10 @@ export const getContentForLogoWall = async () => {
   return data;
 };
 
-export const getContentForHero = async () => {
+export const getContentForHero = async (isDraft = false) => {
   const query = gql`
     query HeroCollection {
-      heroCollection {
+      heroCollection(preview: ${isDraft ? "true" : "false"}) {
         items {
           preTitle
           title
@@ -84,7 +150,7 @@ export const getContentForHero = async () => {
     }
   `;
 
-  const data = await contentGqlFetcher<THeroQuery>({ query });
+  const data = await contentGqlFetcher<THeroQuery>({ query, preview: isDraft });
 
   if (!data) {
     throw new Error("Could not get content");
