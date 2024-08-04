@@ -150,7 +150,11 @@ export const getContentForHero = async (isDraft = false) => {
     }
   `;
 
-  const data = await contentGqlFetcher<THeroQuery>({ query, preview: isDraft });
+  const data = await contentGqlFetcher<THeroQuery>({
+    query,
+    preview: isDraft,
+    tags: ["hero"],
+  });
 
   if (!data) {
     throw new Error("Could not get content");
