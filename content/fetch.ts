@@ -25,7 +25,6 @@ export const contentGqlFetcher = async <T>({
       }),
       next: {
         tags,
-        revalidate: 10,
       },
     }
   );
