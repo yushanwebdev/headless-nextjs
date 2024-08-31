@@ -15,10 +15,9 @@ import Client08 from "@/public/images/client-08.svg";
 import Client09 from "@/public/images/client-09.svg";
 
 // Import Swiper
-import Swiper, { Autoplay } from "swiper";
-import "swiper/swiper.min.css";
+import Swiper from "swiper";
+import "swiper/css";
 import { TLogoWallQuery } from "@/types";
-Swiper.use([Autoplay]);
 
 export default function Clients({
   content,
