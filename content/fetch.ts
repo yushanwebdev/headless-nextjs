@@ -24,7 +24,7 @@ export const contentGqlFetcher = async <T>({
         variables,
       }),
       next: {
-        tags: [...tags],
+        tags: ["hero"],
       },
     }
   );
